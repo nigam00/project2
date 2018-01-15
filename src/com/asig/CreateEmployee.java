@@ -50,7 +50,7 @@ public class CreateEmployee {
 
 	}
 
-	public static void delete(Session session, Class<?> type, Serializable id) {
+	/*public static void delete(Session session, Class<?> type, Serializable id) {
 		Object persistentInstance = session.load(type, id);
 		if (persistentInstance != null) {
 			session.delete(persistentInstance);
@@ -58,7 +58,7 @@ public class CreateEmployee {
 		}
 		return;
 	}
-
+*/
 	public static void main(String[] args) {
 		// session factory
 
