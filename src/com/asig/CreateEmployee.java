@@ -37,7 +37,8 @@ public class CreateEmployee {
 
 	public static void update(Session session, String s) {
 		String[] words = s.split("\\s");
-		String query1 = "update " + words[0] +" set "+ words[1] + "=" + words[2] + " where " + words[3] + "= " + words[4];
+		String query1 = "update " + words[0] + " set " + words[1] + "=" + words[2] + " where " + words[3] + "= "
+				+ words[4];
 		int i = words.length;
 		int j = 5;
 		while (j < i) {
@@ -49,6 +50,7 @@ public class CreateEmployee {
 		qry1.executeUpdate();
 
 	}
+
 	public static void main(String[] args) {
 		// session factory
 
@@ -78,44 +80,50 @@ public class CreateEmployee {
 			case 1:
 				print1(session, query);
 				break;
-			case 2:Employee tempemp = new Employee();
-			Dependant depnd = new Dependant();
-			Manager manage = new Manager();
+			case 2:
+				Employee tempemp = new Employee();
+				Dependant depnd = new Dependant();
+				Manager manage = new Manager();
 				if (words[0].equals("employee")) {
-				
-				tempemp.setEmail(words[3]);
-				tempemp.setFirstname(words[1]);
-				tempemp.setLastname(words[2]);
-				tempemp.setManage(new Manager(Integer.parseInt(words[4])));
-				session.save(tempemp);
+
+					tempemp.setEmail(words[3]);
+					tempemp.setFirstname(words[1]);
+					tempemp.setLastname(words[2]);
+					SQLQuery qry = session.createSQLQuery("select * from manager where manager_id=" + words[4]);
+					Object o[] = (Object[]) qry.list().get(0);
+
+					tempemp.setManage(new Manager((int) o[0], (String) o[1]));
+					session.save(tempemp);
 				}
-				if(words[0].equals("dependant")) {
-				
-				//depnd.setId(Integer.parseInt(words[0]));
-				depnd.setGender(words[1]);
-				depnd.setRelation(words[2]);
-				depnd.setEmp(new Employee(Integer.parseInt(words[3])));
-				session.save(depnd);
+				if (words[0].equals("dependant")) {
+
+					SQLQuery qry = session.createSQLQuery("select * from employee where id=" + words[3]);
+					Object o[] = (Object[]) qry.list().get(0);
+					SQLQuery qry1 = session.createSQLQuery("select * from manager where manager_id=" + (int) o[4]);
+					Object o1[] = (Object[]) qry1.list().get(0);
+
+					depnd.setEmp(new Employee((int) o[0], (String) o[1], (String) o[2], (String) o[3],
+							new Manager((int) o1[0], (String) o1[1])));
+					depnd.setGender(words[1]);
+					depnd.setRelation(words[2]);
+					session.save(depnd);
 				}
-				if(words[0].equals("manager")) {
-					
-				
-				//manage.setMid(Integer.parseInt(words[6]));
-				manage.setDept(words[1]);
-				session.save(manage);
+				if (words[0].equals("manager")) {
+
+					// manage.setMid(Integer.parseInt(words[6]));
+					manage.setDept(words[1]);
+					session.save(manage);
 				}
-				
-				
-				
+
 				break;
 			case 3:
 				update(session, query);
 				break;
 			case 4:
 				if (words[0].equals("employee")) {
-					Dependant dep=new Dependant();
-					SQLQuery qry = session.createSQLQuery("select cid from dependant where id="+words[1]);
-					int id=(int) qry.list().get(0);
+					Dependant dep = new Dependant();
+					SQLQuery qry = session.createSQLQuery("select cid from dependant where id=" + words[1]);
+					int id = (int) qry.list().get(0);
 					dep.setId(id);
 					session.delete(dep);
 					Employee tempemp1 = new Employee();
@@ -127,10 +135,10 @@ public class CreateEmployee {
 					dep.setId(Integer.parseInt(words[1]));
 					session.delete(dep);
 				} else if (words[0].equals("manager")) {
-					
+
 					Employee tempemp1 = new Employee();
-					SQLQuery qry = session.createSQLQuery("select manager_id from dependant where id="+words[1]);
-					int id=(int)qry.list().get(0);
+					SQLQuery qry = session.createSQLQuery("select manager_id from dependant where id=" + words[1]);
+					int id = (int) qry.list().get(0);
 					tempemp1.setId(id);
 					session.delete(tempemp1);
 					Manager manag = new Manager();

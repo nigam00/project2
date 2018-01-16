@@ -35,11 +35,20 @@ public class Employee {
 		return manage;
 	}
 
-	public Employee(int id) {
-	super();
-	this.id = id;
-}
 	
+	
+
+	public Employee(int id, String firstname, String lastname, String email, Manager manage) {
+		super();
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.manage = manage;
+	}
+
+
+
 
 	public Employee() {
 		super();
@@ -49,10 +58,6 @@ public class Employee {
 		this.manage = manage;
 	}
 
-		/*
-	@OneToOne
-	private Dependant dep;
-	*/
 		@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "manager_id")
 	private Manager manage;
@@ -61,22 +66,6 @@ public class Employee {
 	public int getId() {
 		return id;
 	}
-/*
-	public Dependant getDep() {
-		return dep;
-	}
-
-	public void setDep(Dependant dep) {
-		this.dep = dep;
-	}
-
-	public Manager getManage() {
-		return manage;
-	}
-
-	public void setManage(Manager manage) {
-		this.manage = manage;
-	}*/
 
 	public void setId(int id) {
 		this.id = id;

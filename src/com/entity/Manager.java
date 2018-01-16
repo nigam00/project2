@@ -17,9 +17,12 @@ import org.hibernate.annotations.GenericGenerator;
 public class Manager {
 	
 	
-	public Manager(int mid) {
+	
+
+	public Manager(int mid, String dept) {
 		super();
 		this.mid = mid;
+		this.dept = dept;
 	}
 
 	public Manager() {
