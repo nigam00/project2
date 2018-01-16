@@ -26,7 +26,9 @@
         <property name="hibernate.jdbc.batch_size">0</property>
 		<!-- Set the current session context -->
 		<!-- <property name="current_session_context_class">thread</property> -->
- 			<!-- <mapping class="Employee"/> -->
+ 		<!-- 	 <mapping class="Employee"/>
+ 			 <mapping class="Manager"/>
+ 			 <mapping class="Dependant"/>  -->
     </session-factory>
 
 </hibernate-configuration>

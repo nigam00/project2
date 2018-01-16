@@ -1,24 +1,40 @@
 package com.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "manager")
 public class Manager {
 	
+	
+	public Manager(int mid) {
+		super();
+		this.mid = mid;
+	}
+
+	public Manager() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="manager_id")
 	private int mid;
 	
 	@Column(name="department")
 	private String dept;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	private Employee emp;
-
+/*
 	public Employee getEmp() {
 		return emp;
 	}
@@ -26,7 +42,7 @@ public class Manager {
 	public void setEmp(Employee emp) {
 		this.emp = emp;
 	}
-
+*/
 	public int getMid() {
 		return mid;
 	}
@@ -35,13 +51,6 @@ public class Manager {
 		this.mid = mid;
 	}
 
-	/*public int getEmid() {
-		return emid;
-	}
-
-	public void setEmid(int emid) {
-		this.emid = emid;
-	}*/
 
 	public String getDept() {
 		return dept;

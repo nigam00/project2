@@ -49,16 +49,6 @@ public class CreateEmployee {
 		qry1.executeUpdate();
 
 	}
-
-	/*public static void delete(Session session, Class<?> type, Serializable id) {
-		Object persistentInstance = session.load(type, id);
-		if (persistentInstance != null) {
-			session.delete(persistentInstance);
-			return;
-		}
-		return;
-	}
-*/
 	public static void main(String[] args) {
 		// session factory
 
@@ -88,44 +78,61 @@ public class CreateEmployee {
 			case 1:
 				print1(session, query);
 				break;
-			case 2:
-
-				Employee tempemp = new Employee();
+			case 2:Employee tempemp = new Employee();
+			Dependant depnd = new Dependant();
+			Manager manage = new Manager();
+				if (words[0].equals("employee")) {
+				
 				tempemp.setEmail(words[3]);
-				tempemp.setId(Integer.parseInt(words[0]));
 				tempemp.setFirstname(words[1]);
 				tempemp.setLastname(words[2]);
-
-				Dependant depnd = new Dependant();
-				depnd.setId(Integer.parseInt(words[0]));
-				depnd.setGender(words[5]);
-				depnd.setRelation(words[4]);
-
-				Manager manage = new Manager();
-				manage.setMid(Integer.parseInt(words[6]));
-				manage.setDept(words[7]);
-				depnd.setEmp(tempemp);
-				manage.setEmp(tempemp);
-
+				tempemp.setManage(new Manager(Integer.parseInt(words[4])));
 				session.save(tempemp);
+				}
+				if(words[0].equals("dependant")) {
+				
+				//depnd.setId(Integer.parseInt(words[0]));
+				depnd.setGender(words[1]);
+				depnd.setRelation(words[2]);
+				depnd.setEmp(new Employee(Integer.parseInt(words[3])));
 				session.save(depnd);
+				}
+				if(words[0].equals("manager")) {
+					
+				
+				//manage.setMid(Integer.parseInt(words[6]));
+				manage.setDept(words[1]);
 				session.save(manage);
+				}
+				
+				
+				
 				break;
 			case 3:
 				update(session, query);
 				break;
 			case 4:
 				if (words[0].equals("employee")) {
+					Dependant dep=new Dependant();
+					SQLQuery qry = session.createSQLQuery("select cid from dependant where id="+words[1]);
+					int id=(int) qry.list().get(0);
+					dep.setId(id);
+					session.delete(dep);
 					Employee tempemp1 = new Employee();
 					tempemp1.setId(Integer.parseInt(words[1]));
 					session.delete(tempemp1);
-					//session.getTransaction().commit();
 				} else if (words[0].equals("dependant")) {
 					System.out.println("hello");
 					Dependant dep = new Dependant();
 					dep.setId(Integer.parseInt(words[1]));
 					session.delete(dep);
 				} else if (words[0].equals("manager")) {
+					
+					Employee tempemp1 = new Employee();
+					SQLQuery qry = session.createSQLQuery("select manager_id from dependant where id="+words[1]);
+					int id=(int)qry.list().get(0);
+					tempemp1.setId(id);
+					session.delete(tempemp1);
 					Manager manag = new Manager();
 					manag.setMid(Integer.parseInt(words[1]));
 					session.delete(manag);
